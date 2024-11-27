@@ -14,7 +14,7 @@ public class Weapon_Threeshot : Weapon
         if (!GameManager.Instance.isLive)
             return;
 
-        timer += Time.deltaTime * Player.fire_rate;
+        timer += Time.deltaTime * GameManager.Instance.player.fire_rate;
 
         // 발사 주기와 쉬는 시간에 따라 발사
         if (shotsFired < 3 && timer > burstInterval)
