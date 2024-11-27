@@ -33,3 +33,4 @@ public class Boss : Enemy
         }
     }
 }
+//Å×½ºÆ® ¤·¤¤¸»¤¤¾Î
