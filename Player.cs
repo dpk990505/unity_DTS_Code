@@ -17,8 +17,8 @@ public class Player : MonoBehaviour
     public static float fire_rate = 1f; // 무기 연사력
 
     // 플레이어 능력치(생존)
-    public static float max_health = 100f; // 최대 체력
-    public static float curr_health = 100f; // 현재 체력
+    public static float max_health = 10000;// 최대 체력
+    public static float curr_health;  // 현재 체력
     public static float health_regen = 0f; // 체력 재생
     public static float damage_taking = 1f; // 받는피해
     // public float evade; // 회피
@@ -35,8 +35,6 @@ public class Player : MonoBehaviour
     Rigidbody2D rigid;
     SpriteRenderer sprite;
     public Animator anim;
-
-    
 
 
     void Awake()
@@ -62,9 +60,6 @@ public class Player : MonoBehaviour
 
         if (!GameManager.Instance.isLive)
             return;
-
-        //inputVec.x = Input.GetAxisRaw("Horizontal");
-        //inputVec.y = Input.GetAxisRaw("Vertical");
 
         // 체젠하는 부분
         takeHealing(health_regen * Time.deltaTime);
