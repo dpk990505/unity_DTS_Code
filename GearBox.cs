@@ -21,7 +21,6 @@ public class GearBox : MonoBehaviour
         {
             // Animator의 Trigger 매개변수 설정
             animator.SetTrigger("PlayAnimation");
-            Show();
             StartCoroutine(DestroyAfterDelay(0.5f));
         }
     }
