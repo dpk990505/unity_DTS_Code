@@ -10,7 +10,7 @@ public class Weapon_front : Weapon
         if (!GameManager.Instance.isLive)
             return;
 
-        timer += Time.deltaTime * Player.fire_rate;
+        timer += Time.deltaTime * GameManager.Instance.player.fire_rate;
         if (timer > speed)
         {
             timer = 0f;
