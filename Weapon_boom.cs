@@ -15,7 +15,7 @@ public class Weapon_boom : Weapon
 
         
 
-        timer += Time.deltaTime * Player.fire_rate;
+        timer += Time.deltaTime * GameManager.Instance.player.fire_rate;
         if (timer > speed)
         {
             if (!player.scanner.nearstTargets)//지정되는 목표가 없을시
