@@ -127,7 +127,7 @@ public class Item : MonoBehaviour
         }
         else if (data.itemType == ItemData.ItemType.Heal)
         {
-            Player.curr_health = Player.max_health; 
+            GameManager.Instance.player.curr_health = GameManager.Instance.player.max_health; 
 
         }
         if (Level == data.damages.Length)//최대 레벨 달성시
