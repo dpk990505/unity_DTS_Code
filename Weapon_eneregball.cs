@@ -19,7 +19,7 @@ public class Weapon_eneregball : Weapon
     {
         base.setting(data);
 
-        speed = 150 * Character.WeaponSpeed;
+        speed = 150 * GameManager.Instance.player.projectile_speed;
 
         Batch();
 
