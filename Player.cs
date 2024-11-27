@@ -5,39 +5,32 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Player : MonoBehaviour
+public class Player : Character
 {
     public Vector2 inputVec;
     public Vector2 lastMoveDirection; // 마지막 이동 방향
 
-    // 플레이어 능력치(공격)
-    public static float power = 1f; // 캐릭터 공격력
-    public static float crit_rate = 0.05f; // 캐릭터 치확
-    public static float crit_dmg = 1.5f;// 캐릭터 치피
-    public static float fire_rate = 1f; // 무기 연사력
+    // 플레이어 전용 능력치(공격)
+    public float crit_rate = 0.05f; // 캐릭터 치확
+    public float crit_dmg = 1.5f;// 캐릭터 치피
+    public float fire_rate = 1f; // 무기 연사력
+    public float projectile_speed = 1f; // 투사체 속도
+    public float count = 1f;        // 투사체 개수?
 
-    // 플레이어 능력치(생존)
-    public static float max_health = 100f; // 최대 체력
-    public static float curr_health = 100f; // 현재 체력
-    public static float health_regen = 0f; // 체력 재생
-    public static float damage_taking = 1f; // 받는피해
+    // 플레이어 전용 능력치(생존)
+    public float health_mod = 1f;   //체력 배율 (기본체력 * 배율)
+    public float health_regen = 0f; // 체력 재생
+    public float damage_taking = 1f; // 받는피해
     // public float evade; // 회피
 
-    // 플레이어 능력치(유틸리티)
-    public static float speed = 1f;//캐릭터의 이속
-    public static float healing_amp = 1f;//캐릭터의 이동 속도 
-    public static float income_exp = 1f; // 경험치 획득량
-    public static float income_gold = 1f; // 골드 획득량
+    // 플레이어 전용 능력치(유틸리티)
+    public float speed_mod = 1f;    //이동속도 배율 (기본이속 * 배율)
+    public float healing_amp = 1f;//캐릭터의 이동 속도 
+    public float income_exp = 1f; // 경험치 획득량
+    public float income_gold = 1f; // 골드 획득량
 
     public Scanner scanner;
-    public RuntimeAnimatorController[] aniCon;
-    
-    Rigidbody2D rigid;
-    SpriteRenderer sprite;
-    public Animator anim;
-
-    
-
+    public RuntimeAnimatorController[] animCon;
 
     void Awake()
     {
@@ -49,8 +42,26 @@ public class Player : MonoBehaviour
 
     private void OnEnable()
     {
-        speed *= Character.Speed;//캐릭터 마다 속도 설정
-        anim.runtimeAnimatorController = aniCon[GameManager.Instance.playerId];
+        speed = 4;
+        switch (GameManager.Instance.playerId)
+        {
+            case 0:
+                speed_mod += 0.1f;
+                break;
+            case 1:
+                power += 0.1f;
+                break;
+            case 2:
+                projectile_speed += 0.1f;
+                break;
+            case 3:
+                fire_rate += 0.1f;
+                count += 0f;
+                break;
+
+        }
+
+        anim.runtimeAnimatorController = animCon[GameManager.Instance.playerId];
     }
 
     void Update()
@@ -67,7 +78,7 @@ public class Player : MonoBehaviour
         //inputVec.y = Input.GetAxisRaw("Vertical");
 
         // 체젠하는 부분
-        takeHealing(health_regen * Time.deltaTime);
+        Taking_Heal(health_regen * Time.deltaTime);
     
     }
 
@@ -76,7 +87,7 @@ public class Player : MonoBehaviour
         if (!GameManager.Instance.isLive)
             return;
 
-        Vector2 nextVec = inputVec.normalized * speed * Time.fixedDeltaTime * 4; 
+        Vector2 nextVec = inputVec.normalized * speed * speed_mod * Time.fixedDeltaTime; 
 
         rigid.MovePosition(rigid.position + nextVec);//입력받은 Vec함수로 이동
     }
@@ -99,29 +110,29 @@ public class Player : MonoBehaviour
         if (!GameManager.Instance.isLive)
             return;
 
-        takeDamage(10 * Time.deltaTime);
+        Taking_Damage(10 * Time.deltaTime);//델타타임당 10식 피해
     }
 
-    public void takeHealing(float amount)
+    public override void Taking_Heal(float amount)
     {
-        Player.curr_health += amount * healing_amp;
+        base.Taking_Heal(amount * healing_amp);
     }
-    public void takeDamage(float amount)
+    public override void Taking_Damage(float Amount)
     {
-        Player.curr_health -= amount * damage_taking;//델타타임당 10식 피해
+        base.Taking_Damage(Amount * damage_taking); 
+    }
 
-        if(Player.curr_health<= 0)
+    protected override void Got_Dead()
+    {
+        GameManager.Instance.isLive = false;
+
+        for (int i = 2; i < transform.childCount; i++)
         {
-            GameManager.Instance.isLive = false;
-
-            for (int i =2; i<transform.childCount; i++)
-            {
-                transform.GetChild(i).gameObject.SetActive(false);
-            }
-
-            anim.SetTrigger("Dead");
-            GameManager.Instance.GameOver();
+            transform.GetChild(i).gameObject.SetActive(false);
         }
+
+        anim.SetTrigger("Dead");
+        GameManager.Instance.GameOver();
     }
 
     private void OnMove(InputValue value)
