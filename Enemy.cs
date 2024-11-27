@@ -3,21 +3,15 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class Enemy : Character
 {
 
-    public float speed;
-    public float hp;
-    public float maxhp;
     public Rigidbody2D target;
     public RuntimeAnimatorController[] animCon;
-    protected Animator anim;
     protected WaitForFixedUpdate wait;
 
     protected bool isLive;
 
-    protected Rigidbody2D rigid;
-    protected SpriteRenderer sprite;
     protected Collider2D coll;
 
 
@@ -66,15 +60,15 @@ public class Enemy : MonoBehaviour
         sprite.sortingOrder = 2;
         anim.SetBool("Dead", false);
 
-        hp = maxhp;
+        curr_health = max_health;
     }
 
     public void Init(SpawnData data)
     {
         anim.runtimeAnimatorController = animCon[data.spriteType];
-        speed = data.speed; ;
-        maxhp = data.hp;
-        hp = data.hp;
+        speed = data.speed;
+        max_health = data.hp;
+        curr_health = data.hp;
     }
 
     protected virtual void OnTriggerEnter2D(Collider2D collision)
@@ -83,31 +77,9 @@ public class Enemy : MonoBehaviour
             return;
         if (collision.CompareTag("Bullet"))
         {
-            hp -= collision.GetComponent<Bullet>().damage;
+            base.Taking_Damage(collision.GetComponent<Bullet>().damage);
             StartCoroutine(KnockBack());
-
-
-            if (hp > 0)
-            {
-                anim.SetTrigger("Hit");
-                AudioManager.Instance.PlaySfx(AudioManager.Sfx.Hit);
-            }
-            else
-            {
-                isLive = false;
-                coll.enabled = false;
-                rigid.simulated = false;
-                sprite.sortingOrder = 1;
-                anim.SetBool("Dead", true);
-                GameManager.Instance.kill++;
-                GameManager.Instance.GetExp();
-
-                if (GameManager.Instance.isLive)
-                    AudioManager.Instance.PlaySfx(AudioManager.Sfx.Dead);
-            }
         }
-
-
 
     }
 
@@ -119,13 +91,31 @@ public class Enemy : MonoBehaviour
         rigid.AddForce(dirVec.normalized * 3, ForceMode2D.Impulse);//플레이어 반대 방향으로 3의 힘을 즉발적으로 줌
     }
 
+    protected override void Got_Hit()
+    {
+        anim.SetTrigger("Hit");
+        AudioManager.Instance.PlaySfx(AudioManager.Sfx.Hit);
+    }
+
+    protected override void Got_Dead()
+    {
+        isLive = false;
+        coll.enabled = false;
+        rigid.simulated = false;
+        sprite.sortingOrder = 1;
+        anim.SetBool("Dead", true);
+        GameManager.Instance.kill++;
+        GameManager.Instance.GetExp();
+
+        if (GameManager.Instance.isLive)
+            AudioManager.Instance.PlaySfx(AudioManager.Sfx.Dead);
+    }
 
     void Dead()
     {
         gameObject.SetActive(false);
         DropCoins();
         DropExp();
-
     }
 
     private void DropCoins()
