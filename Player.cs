@@ -8,26 +8,29 @@ using UnityEngine.InputSystem;
 public class Player : Character
 {
     public Vector2 inputVec;
-    public Vector2 lastMoveDirection; // ¸¶Áö¸· ÀÌµ¿ ¹æÇâ
+    public Vector2 lastMoveDirection; // ë§ˆì§€ë§‰ ì´ë™ ë°©í–¥
 
-    // ÇÃ·¹ÀÌ¾î Àü¿ë ´É·ÂÄ¡(°ø°İ)
-    public float crit_rate = 0.05f; // Ä³¸¯ÅÍ Ä¡È®
-    public float crit_dmg = 1.5f;// Ä³¸¯ÅÍ Ä¡ÇÇ
-    public float fire_rate = 1f; // ¹«±â ¿¬»ç·Â
-    public float projectile_speed = 1f; // Åõ»çÃ¼ ¼Óµµ
-    public float count = 1f;        // Åõ»çÃ¼ °³¼ö?
+    // í”Œë ˆì´ì–´ ì „ìš© ëŠ¥ë ¥ì¹˜(ê³µê²©)
+    power = 1f; // ìºë¦­í„° ê³µê²©ë ¥
+    public float crit_rate = 0.05f; // ìºë¦­í„° ì¹˜í™•
+    public float crit_dmg = 1.5f;// ìºë¦­í„° ì¹˜í”¼
+    public float fire_rate = 1f; // ë¬´ê¸° ì—°ì‚¬ë ¥
+    public float projectile_speed = 1f; // íˆ¬ì‚¬ì²´ ì†ë„
+    public float count = 1f;        // íˆ¬ì‚¬ì²´ ê°œìˆ˜?
 
-    // ÇÃ·¹ÀÌ¾î Àü¿ë ´É·ÂÄ¡(»ıÁ¸)
-    public float health_mod = 1f;   //Ã¼·Â ¹èÀ² (±âº»Ã¼·Â * ¹èÀ²)
-    public float health_regen = 0f; // Ã¼·Â Àç»ı
-    public float damage_taking = 1f; // ¹Ş´ÂÇÇÇØ
-    // public float evade; // È¸ÇÇ
+    // í”Œë ˆì´ì–´ ì „ìš© ëŠ¥ë ¥ì¹˜(ìƒì¡´)
+    max_health = 10000;// ìµœëŒ€ ì²´ë ¥
+    curr_health;  // í˜„ì¬ ì²´ë ¥
+    public float health_mod = 1f;   //ì²´ë ¥ ë°°ìœ¨ (ê¸°ë³¸ì²´ë ¥ * ë°°ìœ¨)
+    public float health_regen = 0f; // ì²´ë ¥ ì¬ìƒ
+    public float damage_taking = 1f; // ë°›ëŠ”í”¼í•´
+    // public float evade; // íšŒí”¼
 
-    // ÇÃ·¹ÀÌ¾î Àü¿ë ´É·ÂÄ¡(À¯Æ¿¸®Æ¼)
-    public float speed_mod = 1f;    //ÀÌµ¿¼Óµµ ¹èÀ² (±âº»ÀÌ¼Ó * ¹èÀ²)
-    public float healing_amp = 1f;//Ä³¸¯ÅÍÀÇ ÀÌµ¿ ¼Óµµ 
-    public float income_exp = 1f; // °æÇèÄ¡ È¹µæ·®
-    public float income_gold = 1f; // °ñµå È¹µæ·®
+    // í”Œë ˆì´ì–´ ì „ìš© ëŠ¥ë ¥ì¹˜(ìœ í‹¸ë¦¬í‹°)
+    public float speed_mod = 1f;    //ì´ë™ì†ë„ ë°°ìœ¨ (ê¸°ë³¸ì´ì† * ë°°ìœ¨)
+    public float healing_amp = 1f;//ìºë¦­í„°ì˜ ì´ë™ ì†ë„ 
+    public float income_exp = 1f; // ê²½í—˜ì¹˜ íšë“ëŸ‰
+    public float income_gold = 1f; // ê³¨ë“œ íšë“ëŸ‰
 
     public Scanner scanner;
     public RuntimeAnimatorController[] animCon;
@@ -68,31 +71,28 @@ public class Player : Character
     {
         if (inputVec != Vector2.zero)
         {
-            lastMoveDirection = inputVec.normalized; // ÀÔ·Â ¹æÇâ ±â·Ï
+            lastMoveDirection = inputVec.normalized; // ì…ë ¥ ë°©í–¥ ê¸°ë¡
         }
 
         if (!GameManager.Instance.isLive)
             return;
 
-        //inputVec.x = Input.GetAxisRaw("Horizontal");
-        //inputVec.y = Input.GetAxisRaw("Vertical");
-
-        // Ã¼Á¨ÇÏ´Â ºÎºĞ
+        // ì²´ì  í•˜ëŠ” ë¶€ë¶„
         Taking_Heal(health_regen * Time.deltaTime);
     
     }
 
-    void FixedUpdate()//¹°¸® ¿¬»ê ÇÁ·¹ÀÓ ¸¶´Ù È£ÃâµÇ´Â ÁÖ±âÇÔ¼ö
+    void FixedUpdate()//ë¬¼ë¦¬ ì—°ì‚° í”„ë ˆì„ ë§ˆë‹¤ í˜¸ì¶œë˜ëŠ” ì£¼ê¸°í•¨ìˆ˜
     {
         if (!GameManager.Instance.isLive)
             return;
 
         Vector2 nextVec = inputVec.normalized * speed * speed_mod * Time.fixedDeltaTime; 
 
-        rigid.MovePosition(rigid.position + nextVec);//ÀÔ·Â¹ŞÀº VecÇÔ¼ö·Î ÀÌµ¿
+        rigid.MovePosition(rigid.position + nextVec);//ì…ë ¥ë°›ì€ Vecí•¨ìˆ˜ë¡œ ì´ë™
     }
 
-    void LateUpdate()//ÇÁ·¹ÀÓ Á¾·áÀü ½ÇÇàÇÔ¼ö
+    void LateUpdate()//í”„ë ˆì„ ì¢…ë£Œì „ ì‹¤í–‰í•¨ìˆ˜
     {
         if (!GameManager.Instance.isLive)
             return;
@@ -110,7 +110,7 @@ public class Player : Character
         if (!GameManager.Instance.isLive)
             return;
 
-        Taking_Damage(10 * Time.deltaTime);//µ¨Å¸Å¸ÀÓ´ç 10½Ä ÇÇÇØ
+        Taking_Damage(10 * Time.deltaTime);//ë¸íƒ€íƒ€ì„ë‹¹ 10ì‹ í”¼í•´
     }
 
     public override void Taking_Heal(float amount)

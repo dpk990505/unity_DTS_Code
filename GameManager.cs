@@ -22,7 +22,6 @@ public class GameManager : MonoBehaviour
 
     [Header("player info")]
     public int playerId;
-
     public int level;
     public int kill;
     public int exp;
@@ -44,6 +43,7 @@ public class GameManager : MonoBehaviour
     public void GameStart(int id)
     {
         playerId = id;
+        Player.curr_health = Player.max_health;
 
         player.gameObject.SetActive(true);
         //임시 스크립트
