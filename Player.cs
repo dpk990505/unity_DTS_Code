@@ -11,7 +11,6 @@ public class Player : Character
     public Vector2 lastMoveDirection; // 마지막 이동 방향
 
     // 플레이어 전용 능력치(공격)
-    power = 1f; // 캐릭터 공격력
     public float crit_rate = 0.05f; // 캐릭터 치확
     public float crit_dmg = 1.5f;// 캐릭터 치피
     public float fire_rate = 1f; // 무기 연사력
@@ -19,8 +18,6 @@ public class Player : Character
     public float count = 1f;        // 투사체 개수?
 
     // 플레이어 전용 능력치(생존)
-    max_health = 10000;// 최대 체력
-    curr_health;  // 현재 체력
     public float health_mod = 1f;   //체력 배율 (기본체력 * 배율)
     public float health_regen = 0f; // 체력 재생
     public float damage_taking = 1f; // 받는피해
@@ -46,6 +43,7 @@ public class Player : Character
     private void OnEnable()
     {
         speed = 4;
+        max_health = 10000;
         switch (GameManager.Instance.playerId)
         {
             case 0:
