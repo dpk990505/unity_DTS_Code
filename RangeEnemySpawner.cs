@@ -13,13 +13,3 @@ public class RangeEnemySpawner : Spawnner
         RangeEnemy.GetComponent<RangeEnemy>().Init(spawndata[Level]);
     }
 }
-
-
-[System.Serializable]//직렬화
-public class RangeEnymeData
-{
-    public int spriteType;//스프라이트 타입
-    public float spawnTime;//소환시
-    public int hp;//몬스터 체력
-    public float speed;//몬스터 속도
-}
