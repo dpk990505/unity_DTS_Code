@@ -14,13 +14,3 @@ public class BossSpawnner : Spawnner
 
     }
 }
-
-
-[System.Serializable]//직렬화
-public class BossSpawnData
-{
-    public int spriteType;//스프라이트 타입
-    public float spawnTime;//소환시
-    public int hp;//몬스터 체력
-    public float speed;//몬스터 속도
-}
