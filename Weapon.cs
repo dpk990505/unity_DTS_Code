@@ -42,11 +42,9 @@ public class Weapon : MonoBehaviour
             if (!player.scanner.nearstTargets)//지정되는 목표가 없을시
                 return;
             timer -= speed;
-            Vector3 targetPos = player.scanner.nearstTargets.position;//가까운 적의 위치
-            Vector3 dir = targetPos - transform.position;//목표위치-나의위치
-            dir = dir.normalized;
+            
 
-            Fire(transform.position, dir);
+            Fire();
         }
     }
 
@@ -106,9 +104,12 @@ public class Weapon : MonoBehaviour
 
     }
 
-    public virtual void Fire(Vector3 start ,Vector3 dir)
+    public virtual void Fire()
     {
-
+        Vector3 start = transform.position;
+        Vector3 targetPos = player.scanner.nearstTargets.position;//가까운 적의 위치
+        Vector3 dir = targetPos - transform.position;//목표위치-나의위치
+        dir = dir.normalized;
 
         Transform bullet = GameManager.Instance.pool.WeaponGet(prefabId).transform;//프리펩ID목록에서 쏠 오브젝트 지정
         bullet.position = start;//해당 목표 가리킴
