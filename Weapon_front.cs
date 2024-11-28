@@ -4,30 +4,17 @@ using UnityEngine;
 
 public class Weapon_front : Weapon
 {
-    float timer;
-    public override void onUpdate()
-    {
-        if (!GameManager.Instance.isLive)
-            return;
 
-        timer += Time.deltaTime * Player.fire_rate;
-        if (timer > speed)
+    public override void Fire()
+    {
+        Vector3 start = transform.position;
+        Vector3 dir = player.inputVec.normalized;
+
+        // dir이 (0, 0)일 경우 마지막 이동 방향을 사용
+        if (dir == Vector3.zero && player.lastMoveDirection != Vector2.zero)
         {
-            timer = 0f;
-            Vector3 dir = player.inputVec.normalized;
-
-            // dir이 (0, 0)일 경우 마지막 이동 방향을 사용
-            if (dir == Vector3.zero && player.lastMoveDirection != Vector2.zero)
-            {
-                dir = player.lastMoveDirection; // 마지막 이동 방향을 사용
-            }
-
-            Fire(transform.position, dir); // 발사
+            dir = player.lastMoveDirection; // 마지막 이동 방향을 사용
         }
-    }
-
-    public override void Fire(Vector3 start, Vector3 dir)
-    {
         if (dir == Vector3.zero)
         {
             dir = Vector3.up; // 기본 방향으로 설정

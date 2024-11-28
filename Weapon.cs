@@ -6,6 +6,8 @@ public class Weapon : MonoBehaviour
 {
     public int id;//무기 아이디
     public int prefabId;//프리펩 아이디
+
+    //무기의 기초 능력치
     public float damage;//데미지
     public int count;//갯수
     public float speed;//속도
@@ -34,23 +36,21 @@ public class Weapon : MonoBehaviour
         if (!GameManager.Instance.isLive)
             return;
 
-        timer += Time.deltaTime * Player.fire_rate;
+        timer += Time.deltaTime * GameManager.Instance.player.fire_rate;
         if (timer > speed)
         {
             if (!player.scanner.nearstTargets)//지정되는 목표가 없을시
                 return;
             timer -= speed;
-            Vector3 targetPos = player.scanner.nearstTargets.position;//가까운 적의 위치
-            Vector3 dir = targetPos - transform.position;//목표위치-나의위치
-            dir = dir.normalized;
+            
 
-            Fire(transform.position, dir);
+            Fire();
         }
     }
 
     public virtual void LevelUp(float damage, int count, float speed)
     {
-        this.damage = damage * Character.Damage;
+        this.damage = damage;
         this.count += count;
         this.speed += speed;
 
@@ -65,8 +65,8 @@ public class Weapon : MonoBehaviour
 
         //이후 캐릭터 정보에 따른 설정
         id = data.sub_type;
-        damage = data.baseDamage * Character.Damage;
-        count = data.baseCount + Character.Count;
+        damage = data.baseDamage;
+        count = data.baseCount;
         speed = data.baseSpeed;
         Life_time = data.Life_time;
 
@@ -85,7 +85,7 @@ public class Weapon : MonoBehaviour
     {
         
         setting(data);
-        speed = 0.5f * Character.WeaponRate;
+        speed = 0.5f * GameManager.Instance.player.fire_rate;
         speed = data.baseSpeed;
 
 
@@ -104,14 +104,17 @@ public class Weapon : MonoBehaviour
 
     }
 
-    public virtual void Fire(Vector3 start ,Vector3 dir)
+    public virtual void Fire()
     {
-
+        Vector3 start = transform.position;
+        Vector3 targetPos = player.scanner.nearstTargets.position;//가까운 적의 위치
+        Vector3 dir = targetPos - transform.position;//목표위치-나의위치
+        dir = dir.normalized;
 
         Transform bullet = GameManager.Instance.pool.WeaponGet(prefabId).transform;//프리펩ID목록에서 쏠 오브젝트 지정
         bullet.position = start;//해당 목표 가리킴
         bullet.rotation = Quaternion.FromToRotation(Vector3.up, dir);//지정된 축을 중심으로 목표를 향해 회전
-        bullet.GetComponent<Bullet>().Init(damage * Player.power, count, dir,Life_time);
+        bullet.GetComponent<Bullet>().Init(damage * GameManager.Instance.player.power, count, dir,Life_time);
 
         AudioManager.Instance.PlaySfx(AudioManager.Sfx.Range);//소리임
     }

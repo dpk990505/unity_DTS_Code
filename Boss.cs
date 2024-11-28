@@ -11,25 +11,9 @@ public class Boss : Enemy
         if (!collision.CompareTag("Bullet") || !isLive)
             return;
 
-        hp -= collision.GetComponent<Bullet>().damage;
-
-        if (hp > 0)
+        if (collision.CompareTag("Bullet"))
         {
-            anim.SetTrigger("Hit");
-            AudioManager.Instance.PlaySfx(AudioManager.Sfx.Hit);
-        }
-        else
-        {
-            isLive = false;
-            coll.enabled = false;
-            rigid.simulated = false;
-            sprite.sortingOrder = 1;
-            anim.SetBool("Dead", true);
-            GameManager.Instance.kill++;
-            GameManager.Instance.GetExp();
-
-            if (GameManager.Instance.isLive)
-            { AudioManager.Instance.PlaySfx(AudioManager.Sfx.Dead); }
+            base.Taking_Damage(collision.GetComponent<Bullet>().damage);
         }
     }
 }

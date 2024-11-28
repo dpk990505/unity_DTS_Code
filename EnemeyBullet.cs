@@ -41,7 +41,7 @@ public class EnemeyBullet : MonoBehaviour
         if (player != null)
         {
 
-            player.takeDamage(this.damage);
+            GameManager.Instance.player.Taking_Damage(this.damage);
 
         }
 
