@@ -8,7 +8,7 @@ public class Weapon_boom : Weapon
     public override void Fire()
     {
         Vector3 start = player.scanner.nearstTargets.position;
-        Vector3 dir = Vector3.down;//목표위치-나의위치
+        Vector3 dir = Vector3.down;
         dir = dir.normalized;
 
         Transform bullet = GameManager.Instance.pool.WeaponGet(prefabId).transform;//프리펩ID목록에서 쏠 오브젝트 지정

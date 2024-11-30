@@ -44,6 +44,8 @@ public class Player : Character
     {
         speed = 4;
         max_health = 10000;
+
+        curr_health = max_health;
         switch (GameManager.Instance.playerId)
         {
             case 0:

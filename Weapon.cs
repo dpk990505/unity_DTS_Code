@@ -41,7 +41,7 @@ public class Weapon : MonoBehaviour
         {
             if (!player.scanner.nearstTargets)//지정되는 목표가 없을시
                 return;
-            timer -= speed;
+            timer = 0f;
             
 
             Fire();
