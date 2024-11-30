@@ -7,11 +7,12 @@ public class Bullet : MonoBehaviour
     public float damage;//데미지
     public int pre;//관통계수
     public float speed;//투사체 날라가는 속도
+    public Vector3 dir;//투사체 날라가는 속도
     public float Life_time;//유지시간
 
-    float timer;
+    protected float timer;
 
-    Rigidbody2D rigid;
+    protected Rigidbody2D rigid;
     SpriteRenderer spriteRenderer;
 
 
@@ -38,8 +39,9 @@ public class Bullet : MonoBehaviour
     {
         this.damage = damage;
         this.pre = pre;
+        this.dir = dir;
         this.Life_time = Life_time;
-        this.timer = 0;
+        timer = 0;
         
 
         if (pre >=0)
