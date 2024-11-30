@@ -97,6 +97,12 @@ public class Item : MonoBehaviour
                     case 6:
                         weapon = newWeapon.AddComponent<Weapon_bombard>();
                         break;
+                    case 7:
+                        weapon = newWeapon.AddComponent<Weapon_carpet>();
+                        break;
+                    case 8:
+                        weapon = newWeapon.AddComponent<Weapon_Boomerang>();
+                        break;
                 }
                 weapon.Init(data);
             }
