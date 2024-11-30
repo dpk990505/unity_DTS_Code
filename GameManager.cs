@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     public Result uiResult;
     public Transform uiJoy;
     public GameObject enemyClener;
+    public BoxOpen boxOpen;
 
     [Header("player info")]
     public int playerId;
@@ -46,8 +47,10 @@ public class GameManager : MonoBehaviour
         GameManager.Instance.player.curr_health = GameManager.Instance.player.max_health;
 
         player.gameObject.SetActive(true);
-        //임시 스크립트
+
+        //기본무기 지급
         uiLevelup.Select(playerId%2);
+
         Resume();
 
         AudioManager.Instance.PlayBgm(true);

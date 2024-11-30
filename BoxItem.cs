@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Item : MonoBehaviour
+public class BoxItem : MonoBehaviour
 {
     public ItemData data;
     public int Level;
@@ -57,7 +57,7 @@ public class Item : MonoBehaviour
                     break;
             }
         }
-        else if(data.itemType == ItemData.ItemType.Attribute)
+        else if (data.itemType == ItemData.ItemType.Attribute)
         {
             textInfo.text = string.Format(data.itemDesc, data.damages[Level] * 100);
         }
@@ -133,7 +133,7 @@ public class Item : MonoBehaviour
         }
         else if (data.itemType == ItemData.ItemType.Heal)
         {
-            GameManager.Instance.player.curr_health = GameManager.Instance.player.max_health; 
+            GameManager.Instance.player.curr_health = GameManager.Instance.player.max_health;
 
         }
         if (Level == data.damages.Length)//최대 레벨 달성시

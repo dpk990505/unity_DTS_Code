@@ -1,19 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Net.Http.Headers;
-using System.Reflection;
 using UnityEngine;
+using static UnityEditor.Progress;
 
-public class LevelUp : MonoBehaviour
+public class BoxOpen : MonoBehaviour
 {
     RectTransform rect;
-    public Item[] items;
+    public BoxItem[] items;
 
 
     private void Awake()
     {
         rect = GetComponent<RectTransform>();
-        items = GetComponentsInChildren<Item>(true);
+        items = GetComponentsInChildren<BoxItem>(true);
     }
 
     public void Show()
@@ -27,7 +26,7 @@ public class LevelUp : MonoBehaviour
 
     public void Hide()
     {
-        rect.localScale= Vector3.zero;
+        rect.localScale = Vector3.zero;
         GameManager.Instance.Resume();
         AudioManager.Instance.PlaySfx(AudioManager.Sfx.select);
         AudioManager.Instance.EffectBgm(false);
@@ -41,15 +40,15 @@ public class LevelUp : MonoBehaviour
     void Next()
     {
         // 모든 아이템 비활성화
-        foreach (Item item in items)
+        foreach (BoxItem item in items)
         {
             item.gameObject.SetActive(false);
         }
 
-        List<Item> levelableItems = new List<Item>();
+        List<BoxItem> levelableItems = new List<BoxItem>();
 
         // 레벨업이 가능한 아이템을 선택
-        foreach (Item item in items)
+        foreach (BoxItem item in items)
         {
             if (item.Level < item.data.damages.Length)
             {
@@ -71,7 +70,7 @@ public class LevelUp : MonoBehaviour
             else
             {
                 // 만약 레벨업 가능한 아이템이 없다면 소비 아이템 활성화
-                items[5].gameObject.SetActive(true);  // 소비 아이템 (items[4]) 활성화
+                items[0].gameObject.SetActive(true);  // 소비 아이템 (items[4]) 활성화
             }
         }
     }
