@@ -6,6 +6,7 @@ using static UnityEditor.Progress;
 public class GearBox : MonoBehaviour
 {
     private Animator animator;
+    //public LevelUp uiLevelup;
 
     void Start()
     {
@@ -21,6 +22,7 @@ public class GearBox : MonoBehaviour
         {
             // Animator의 Trigger 매개변수 설정
             animator.SetTrigger("PlayAnimation");
+            GameManager.Instance.boxOpen.Show();
             StartCoroutine(DestroyAfterDelay(0.5f));
         }
     }
@@ -32,6 +34,4 @@ public class GearBox : MonoBehaviour
         // 오브젝트 삭제
         Destroy(gameObject);
     }
-
-
 }
