@@ -105,12 +105,14 @@ public class BoxItem : MonoBehaviour
                 float nextDamage = data.baseDamage;
                 int nextCount = 0;
                 float nextSpeed = data.baseSpeed;
+                int next_bust_count = data.base_bust_num;
 
                 nextDamage += data.baseDamage * data.damages[Level];
                 nextCount += data.counts[Level];//해당 레벨에 따라 카운트가 달라짐
                 nextSpeed = data.speeds[Level];//레벨에 따라 스피드증가(탄속, 회전속도등)
+                next_bust_count += data.bust_numcount[Level];
 
-                weapon.LevelUp(nextDamage, nextCount, nextSpeed);
+                weapon.LevelUp(nextDamage, nextCount, nextSpeed, next_bust_count);
             }
 
             Level++;

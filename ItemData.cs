@@ -26,10 +26,12 @@ public class ItemData : ScriptableObject
     public float baseDamage;
     public int baseCount;//근거리는 갯수, 원거리는 관통력,-100사용시 제자리 고정
     public float baseSpeed;
+    public int base_bust_num;//갯수가 존재하는 투사체 전용 코드, 기본
     public float Life_time;
     public float[] damages;
     public int[] counts;
     public float[] speeds;// 처음 값은 0 고정
+    public int [] bust_numcount;//해당 코드는 bust_numcount 의 숫자증가
     
 
     [Header("# Weapon")]

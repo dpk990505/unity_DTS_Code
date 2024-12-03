@@ -11,7 +11,8 @@ public class Weapon : MonoBehaviour
     public float damage;//데미지
     public int count;//갯수
     public float speed;//속도
-    public float Life_time;
+    public float Life_time;//존재시간
+    
 
 
     float timer;
@@ -49,7 +50,7 @@ public class Weapon : MonoBehaviour
         }
     }
 
-    public virtual void LevelUp(float damage, int count, float speed)
+    public virtual void LevelUp(float damage, int count, float speed, int bust_num)
     {
         this.damage = damage;
         this.count += count;
