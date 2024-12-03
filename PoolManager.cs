@@ -12,6 +12,7 @@ public class PoolManager : MonoBehaviour
     public GameObject [] WeaponPrefabs;
     public GameObject[] EnemyBulletPrefabs;
     public GameObject[] CoinPrefabs;
+    public GameObject[] GearboxPrefabs;
     //풀 당담 리스트들
     List<GameObject>[] pools;
     List<GameObject>[] Bosspools;
@@ -19,6 +20,7 @@ public class PoolManager : MonoBehaviour
     List<GameObject>[] RangeEnemyPools;
     List<GameObject>[] EnemyBulletPools;
     List<GameObject>[] CoinPools;
+    List<GameObject>[] GearboxPools;
 
     void Awake()
     {
@@ -62,6 +64,13 @@ public class PoolManager : MonoBehaviour
         for (int index = 0; index < CoinPrefabs.Length; index++)
         {
             CoinPools[index] = new List<GameObject>();
+        }
+
+        GearboxPools = new List<GameObject>[GearboxPrefabs.Length];
+
+        for (int index = 0; index < GearboxPrefabs.Length; index++)
+        {
+            GearboxPools[index] = new List<GameObject>();
         }
     }
 
@@ -196,6 +205,29 @@ public class PoolManager : MonoBehaviour
         {
             select = Instantiate(CoinPrefabs[index], transform);
             CoinPools[index].Add(select);
+        }
+        return select;
+    }
+
+    public GameObject GearBoxGet(int index)
+    {
+        GameObject select = null;
+        //해당 풀 오브젝트 접근
+
+        foreach (GameObject item in GearboxPools[index])//해당pools변수 안에 있는 인덱스 전부 검색
+        {
+            if (!item.activeSelf)//비활성화 상태일시
+            {   //발견시 selset변수에 할당
+                select = item;
+                select.SetActive(true);
+                break;
+            }
+        }
+        //못 찾았을시 새롭게 생성 후 
+        if (select == null)
+        {
+            select = Instantiate(GearboxPrefabs[index], transform);
+            GearboxPools[index].Add(select);
         }
         return select;
     }

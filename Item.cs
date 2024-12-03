@@ -55,6 +55,12 @@ public class Item : MonoBehaviour
                 case 6:
                     textInfo.text = string.Format(data.itemDesc, data.damages[Level] * 100, data.counts[Level], data.speeds[Level]);
                     break;
+                case 7:
+                    textInfo.text = string.Format(data.itemDesc, data.damages[Level] * 100, data.counts[Level], data.speeds[Level]);
+                    break;
+                case 8:
+                    textInfo.text = string.Format(data.itemDesc, data.damages[Level] * 100, data.counts[Level], data.speeds[Level]);
+                    break;
             }
         }
         else if(data.itemType == ItemData.ItemType.Attribute)
