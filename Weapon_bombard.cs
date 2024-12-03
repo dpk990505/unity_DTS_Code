@@ -6,7 +6,6 @@ public class Weapon_bombard : Weapon_Threeshot
     void Awake()
     {
         player = GameManager.Instance.player;
-        burst_number = 5;
     }
 
 
@@ -14,7 +13,7 @@ public class Weapon_bombard : Weapon_Threeshot
     {
 
         // 2D 환경에서의 랜덤 위치를 생성
-        Vector2 randomDir2D = Random.insideUnitCircle * 5f;
+        Vector2 randomDir2D = Random.insideUnitCircle * 5f;//범위
         Vector3 start = new Vector3(randomDir2D.x, randomDir2D.y, 0);
         start += transform.position;
 

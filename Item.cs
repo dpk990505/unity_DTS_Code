@@ -111,12 +111,18 @@ public class Item : MonoBehaviour
                 float nextDamage = data.baseDamage;
                 int nextCount = 0;
                 float nextSpeed = data.baseSpeed;
+                int next_bust_count = data.base_bust_num;
 
                 nextDamage += data.baseDamage * data.damages[Level];
                 nextCount += data.counts[Level];//해당 레벨에 따라 카운트가 달라짐
                 nextSpeed = data.speeds[Level];//레벨에 따라 스피드증가(탄속, 회전속도등)
 
-                weapon.LevelUp(nextDamage, nextCount, nextSpeed);
+                //임시 코드, 이거보다 더 최적화 가능하면 해[줘]
+                if (data.bust_numcount != null && Level < data.bust_numcount.Length)
+                {
+                    next_bust_count += data.bust_numcount[Level]; // 값이 존재할 경우에만 동작
+                }
+                weapon.LevelUp(nextDamage, nextCount, nextSpeed,next_bust_count);
             }
 
             Level++;
