@@ -44,7 +44,7 @@ public class GameManager : MonoBehaviour
     public void GameStart(int id)
     {
         playerId = id;
-        GameManager.Instance.player.curr_health = GameManager.Instance.player.max_health;
+        player.curr_health = player.max_health;
 
         player.gameObject.SetActive(true);
 
