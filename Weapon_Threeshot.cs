@@ -11,7 +11,7 @@ public class Weapon_Threeshot : Weapon_front
     protected float burstCooldown = 1.0f; // 3점사 후 쉬는 시간
 
     int shotsFired = 0; // 총 발사된 횟수를 추적
-    public override void onUpdate()
+    void Update()
     {
         if (!GameManager.Instance.isLive)
             return;
