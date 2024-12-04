@@ -5,19 +5,37 @@ using UnityEngine;
 
 public class Weapon_eneregball : Weapon
 {
-
-    public override void onUpdate()
+    void Update()
     {
         if (!GameManager.Instance.isLive)
             return;
 
         transform.Rotate(Vector3.back * speed * Time.deltaTime);
-
     }
 
     public override void Init(ItemData data)
     {
-        base.setting(data);
+        //초기 설정
+        // name = "Weapon " + data.sub_type;
+        transform.parent = player.transform;
+        transform.localPosition = Vector3.zero;//지역위치를 플레이어 위치로 변경
+
+        //이후 캐릭터 정보에 따른 설정
+        id = data.sub_type;
+        damage = data.baseDamage;
+        count = data.baseCount;
+        speed = data.baseSpeed;
+        Life_time = data.Life_time;
+
+        for (int index = 0; index < GameManager.Instance.pool.WeaponPrefabs.Length; index++)
+        {
+            //프리펩 아이디 찾는 코드, 풀링 매니저의 변수에서 찾아서 초기화
+            if (data.projectile == GameManager.Instance.pool.WeaponPrefabs[index])
+            {
+                prefabId = index;
+                break;
+            }
+        }
 
         speed = 150 * GameManager.Instance.player.projectile_speed;
 
