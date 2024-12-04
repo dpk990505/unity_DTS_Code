@@ -19,8 +19,6 @@ public class Weapon : MonoBehaviour
     Gear gear;
     protected bool is_rotation_setted = false;
     protected Quaternion base_rotation;
-   
-
 
     void Awake()
     {
@@ -28,11 +26,6 @@ public class Weapon : MonoBehaviour
     }
 
     void Update()
-    {
-        onUpdate();
-    }
-
-    public virtual void onUpdate()
     {
         if (!GameManager.Instance.isLive)
             return;
@@ -43,7 +36,7 @@ public class Weapon : MonoBehaviour
             if (!player.scanner.nearstTargets)//지정되는 목표가 없을시
                 return;
             timer = 0f;
-            
+
 
             Fire();
         }
@@ -57,7 +50,7 @@ public class Weapon : MonoBehaviour
 
     }
 
-    protected virtual void setting(ItemData data)//리펙토링코드
+    public virtual void Init(ItemData data)//item Data에서 정보를 받아옴
     {
         //초기 설정
         // name = "Weapon " + data.sub_type;
@@ -80,28 +73,9 @@ public class Weapon : MonoBehaviour
                 break;
             }
         }
-    }
 
-    public virtual void Init(ItemData data)//item Data에서 정보를 받아옴
-    {
-        
-        setting(data);
         speed = 0.5f * GameManager.Instance.player.fire_rate;
         speed = data.baseSpeed;
-
-
-        // 더 이상 쓸모 없어져서 전체 주석
-        //switch (id)//무기 아이디에 따라 로직을 분리(투사체,플레이어주변돌기)
-        //{
-        //    //case 0://무기 아이디 0 일경우 플레이어 주변 돌기
-        //        //speed = 150 * Character.WeaponSpeed;
-        //        //Batch();
-        //        //break;
-        //    default://나머지는 투사체 취급
-        //        speed = 0.5f *Character.WeaponRate;
-        //        speed = data.baseSpeed;
-        //        break;
-        //}
 
     }
 
