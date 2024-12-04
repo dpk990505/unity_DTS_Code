@@ -43,9 +43,9 @@ public class Weapon_eneregball : Weapon
 
     }
 
-    public override void LevelUp(float damage, int count, float speed)
+    public override void LevelUp(float damage, int count, float speed,int bust_num)
     {
-        base.LevelUp(damage, count, speed);
+        base.LevelUp(damage, count, speed,bust_num);
         Batch();
     }
 
