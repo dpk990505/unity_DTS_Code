@@ -63,12 +63,13 @@ public class Enemy : Character
         curr_health = max_health;
     }
 
-    public void Init(SpawnData data)
+    public void Init(SpawnData data, int Level)
     {
         anim.runtimeAnimatorController = animCon[data.spriteType];
         speed = data.speed;
-        max_health = data.hp;
-        curr_health = data.hp;
+        max_health = data.hp * (1 + 0.05f*Level);
+        curr_health = data.hp * (1 + 0.05f * Level);
+        power = 1 + 0.1f * Level;
     }
 
     protected virtual void OnTriggerEnter2D(Collider2D collision)
