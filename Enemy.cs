@@ -75,12 +75,14 @@ public class Enemy : Character
     {
         if (!isLive)
             return;
-        if (collision.CompareTag("Bullet"))
-        {
-            base.Taking_Damage(collision.GetComponent<Bullet>().damage);
-            StartCoroutine(KnockBack());
-        }
 
+    }
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            collision.GetComponent<Player>().Taking_Damage(10 * Time.deltaTime);
+        }
     }
 
     IEnumerator KnockBack()
@@ -94,6 +96,7 @@ public class Enemy : Character
     protected override void Got_Hit()
     {
         anim.SetTrigger("Hit");
+        StartCoroutine(KnockBack());
         AudioManager.Instance.PlaySfx(AudioManager.Sfx.Hit);
     }
 
