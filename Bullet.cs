@@ -52,8 +52,11 @@ public class Bullet : MonoBehaviour
 
      void OnTriggerEnter2D(Collider2D collision)//몬스터만 관통 카운터 감소
      {
-        if (collision.CompareTag("Enemy") || collision.CompareTag("Boss") ||collision.CompareTag("RangeEnemy"))
-        pre--;
+        if (collision.CompareTag("Enemy") || collision.CompareTag("Boss") || collision.CompareTag("RangeEnemy"))
+        {
+            collision.GetComponent<Enemy>().Taking_Damage(damage * GameManager.Instance.player.power);
+            pre--;
+        }
 
         if (pre == -1 )//관통력 숫자가 -1이 되었을시
         {

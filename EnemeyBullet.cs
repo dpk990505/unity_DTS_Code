@@ -33,16 +33,8 @@ public class EnemeyBullet : MonoBehaviour
     void OnTriggerEnter2D(Collider2D collision)//몬스터만 관통 카운터 감소
     {
         if (collision.CompareTag("Player"))
-            pre--;
-        else
-            return;
-
-        Player player = collision.GetComponent<Player>();
-        if (player != null)
         {
-
-            GameManager.Instance.player.Taking_Damage(this.damage);
-
+            collision.GetComponent<Player>().Taking_Damage(damage);
         }
 
         if (pre <= 0)//관통력 숫자가 -가이 되었을시
