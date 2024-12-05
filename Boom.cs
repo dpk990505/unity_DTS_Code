@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class Boom : MonoBehaviour
 {
+
+    // 이 파일 안씀
+
+
     public float damage;//데미지
     public int pre;//관통계수
     public float speed;//투사체 날라가는 속도
