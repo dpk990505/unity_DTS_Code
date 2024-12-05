@@ -24,9 +24,9 @@ public class Spawnner : MonoBehaviour
             return;
 
         timer += Time.deltaTime;
-        Level = Mathf.Min(Mathf.FloorToInt(GameManager.Instance.gameTime / levelTime),spawndata.Length-1);//인트로 변환, 진행된 게임시간/10 = 게임레벨
+        Level = Mathf.FloorToInt(GameManager.Instance.gameTime / 10);//인트로 변환, 진행된 게임시간/10 = 게임레벨
 
-        if (timer > spawndata[Level].spawnTime) {
+        if (timer > spawndata[0].spawnTime/(1+0.1*Level)) {
             timer = 0;
             Spawn();
         }
@@ -37,7 +37,7 @@ public class Spawnner : MonoBehaviour
         GameObject enemy =  GameManager.Instance.pool.Get(0);
         //자식 오브젝트에서만 선택되도록 1부터 시작
         enemy.transform.position = SpawnPoint[Random.Range(1,SpawnPoint.Length)].position;
-        enemy.GetComponent<Enemy>().Init(spawndata[Level]);
+        enemy.GetComponent<Enemy>().Init(spawndata[0], Level);
     }
 }
 

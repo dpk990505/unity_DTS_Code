@@ -10,7 +10,7 @@ public class BossSpawnner : Spawnner
         GameObject Boss = GameManager.Instance.pool.BossGet(0);
         //자식 오브젝트에서만 선택되도록 1부터 시작
         Boss.transform.position = SpawnPoint[Random.Range(1, SpawnPoint.Length)].position;
-        Boss.GetComponent<Boss>().Init(spawndata[Level]);
+        Boss.GetComponent<Boss>().Init(spawndata[0], Level);
 
     }
 }
