@@ -79,7 +79,7 @@ public class Enemy : Character
         if (collision.CompareTag("Bullet"))
         {
             base.Taking_Damage(collision.GetComponent<Bullet>().damage);
-            StartCoroutine(KnockBack());
+            StartCoroutine(KnockBack());//피격 로직 수정, 블릿 오브젝트 맞았을시 처리를 Enemy쪽에서 처리
         }
 
     }

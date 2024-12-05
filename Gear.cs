@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Xml.Serialization;
 using Unity.VisualScripting;
 using UnityEngine;
-
+//기어로직수정완료
 public class Gear : MonoBehaviour
 {
     // Start is called before the first frame update
