@@ -11,32 +11,13 @@ public class Weapon_Threeshot : Weapon_front//멀티샷 코드
 
     int shotsFired = 0; // 총 발사된 횟수를 추적
 
-    protected override void setting(ItemData data)//리펙토링코드
+    public override void Init(ItemData data)//리펙토링코드
     {
-        //초기 설정
-        // name = "Weapon " + data.sub_type;
-        transform.parent = player.transform;
-        transform.localPosition = Vector3.zero;//지역위치를 플레이어 위치로 변경
-
-        //이후 캐릭터 정보에 따른 설정
-        id = data.sub_type;
-        damage = data.baseDamage;
-        count = data.baseCount;
-        speed = data.baseSpeed;
-        Life_time = data.Life_time;
+        base.Init(data);
         bust_num = data.base_bust_num;//멀티샷 쓰는 코드 값 전용
-
-        for (int index = 0; index < GameManager.Instance.pool.WeaponPrefabs.Length; index++)
-        {
-            //프리펩 아이디 찾는 코드, 풀링 매니저의 변수에서 찾아서 초기화
-            if (data.projectile == GameManager.Instance.pool.WeaponPrefabs[index])
-            {
-                prefabId = index;
-                break;
-            }
-        }
     }
-    public override void onUpdate()
+
+    void Update()
     {
         if (!GameManager.Instance.isLive)
             return;

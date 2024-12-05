@@ -29,15 +29,15 @@ public class Enemy : Character
         if (!GameManager.Instance.isLive)
             return;
 
-        if (!isLive || anim.GetCurrentAnimatorStateInfo(0).IsName("Hit"))//ÇöÁ¦ »óÅÂ¸¦°¡Á®¿À´Â ÇÔ¼ö
+        if (!isLive || anim.GetCurrentAnimatorStateInfo(0).IsName("Hit"))//í˜„ì œ ìƒíƒœë¥¼ê°€ì ¸ì˜¤ëŠ” í•¨ìˆ˜
             return;
 
-        Vector2 dirVec = target.position - rigid.position;//À§Ä¡Â÷ÀÌ = Å¸°ÙÀ§Ä¡ - ³ªÀÇ À§Ä¡
+        Vector2 dirVec = target.position - rigid.position;//ìœ„ì¹˜ì°¨ì´ = íƒ€ê²Ÿìœ„ì¹˜ - ë‚˜ì˜ ìœ„ì¹˜
 
-        //ÇÃ·¹ÀÌ¾î Å°ÀÔ·Â °ªÀ» ´õÇÑ ÀÌµ¿ =  ¸ó½ºÅÍ ¹æÇâ°ªÀ» ´õÇÑ ÀÌµ¿
+        //í”Œë ˆì´ì–´ í‚¤ì…ë ¥ ê°’ì„ ë”í•œ ì´ë™ =  ëª¬ìŠ¤í„° ë°©í–¥ê°’ì„ ë”í•œ ì´ë™
         Vector2 nextVec = dirVec.normalized * speed * Time.fixedDeltaTime;
         rigid.MovePosition(rigid.position + nextVec);
-        rigid.velocity = Vector2.zero;//¹°¸®Àû Ãæµ¹ÀÌ ÀÌµ¿¼Óµµ¿¡ ¿µÇâÀ» ¾È°¡°Ô ¼³Á¤
+        rigid.velocity = Vector2.zero;//ë¬¼ë¦¬ì  ì¶©ëŒì´ ì´ë™ì†ë„ì— ì˜í–¥ì„ ì•ˆê°€ê²Œ ì„¤ì •
 
     }
 
@@ -48,9 +48,9 @@ public class Enemy : Character
 
         if (!isLive)
             return;
-        sprite.flipX = target.position.x > rigid.position.x;// ¸ñÇ¥ÀÇ x°ªº¸´Ù Å©´Ù¸é ÇÃ¸³X ½ÇÇà
+        sprite.flipX = target.position.x > rigid.position.x;// ëª©í‘œì˜ xê°’ë³´ë‹¤ í¬ë‹¤ë©´ í”Œë¦½X ì‹¤í–‰
     }
-    void OnEnable()//ÇÁ¸®ÆÕÀÇ Å¸±ê ÃÊ±âÈ­ ÈÄ ÇÃ·¹ÀÌ¾î ÃßÀû
+    void OnEnable()//í”„ë¦¬íŒ¹ì˜ íƒ€ê¹ƒ ì´ˆê¸°í™” í›„ í”Œë ˆì´ì–´ ì¶”ì 
     {
         target = GameManager.Instance.player.GetComponent<Rigidbody2D>();
         isLive = true;
@@ -63,12 +63,13 @@ public class Enemy : Character
         curr_health = max_health;
     }
 
-    public void Init(SpawnData data)
+    public void Init(SpawnData data, int Level)
     {
         anim.runtimeAnimatorController = animCon[data.spriteType];
         speed = data.speed;
-        max_health = data.hp;
-        curr_health = data.hp;
+        max_health = data.hp * (1 + 0.05f*Level);
+        curr_health = data.hp * (1 + 0.05f * Level);
+        power = 1 + 0.1f * Level;
     }
 
     protected virtual void OnTriggerEnter2D(Collider2D collision)
@@ -87,10 +88,10 @@ public class Enemy : Character
 
     IEnumerator KnockBack()
     {
-        yield return wait;//´ÙÀ½ ÇÏ³ªÀÇ ¹°¸® ÇÁ·¹ÀÓ µô·¹ÀÌ
+        yield return wait;//ë‹¤ìŒ í•˜ë‚˜ì˜ ë¬¼ë¦¬ í”„ë ˆì„ ë”œë ˆì´
         Vector3 playerPos = GameManager.Instance.player.transform.position;
         Vector3 dirVec = transform.position - playerPos;
-        rigid.AddForce(dirVec.normalized * 3, ForceMode2D.Impulse);//ÇÃ·¹ÀÌ¾î ¹İ´ë ¹æÇâÀ¸·Î 3ÀÇ ÈûÀ» Áï¹ßÀûÀ¸·Î ÁÜ
+        rigid.AddForce(dirVec.normalized * 3, ForceMode2D.Impulse);//í”Œë ˆì´ì–´ ë°˜ëŒ€ ë°©í–¥ìœ¼ë¡œ 3ì˜ í˜ì„ ì¦‰ë°œì ìœ¼ë¡œ ì¤Œ
     }
 
     protected override void Got_Hit()

@@ -10,6 +10,6 @@ public class RangeEnemySpawner : Spawnner
         GameObject RangeEnemy = GameManager.Instance.pool.RangeEnemyGet(0);
         //자식 오브젝트에서만 선택되도록 1부터 시작
         RangeEnemy.transform.position = SpawnPoint[Random.Range(1, SpawnPoint.Length)].position;
-        RangeEnemy.GetComponent<RangeEnemy>().Init(spawndata[Level]);
+        RangeEnemy.GetComponent<RangeEnemy>().Init(spawndata[0], Level);
     }
 }
