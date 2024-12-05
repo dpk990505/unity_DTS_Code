@@ -16,5 +16,13 @@ public class Boss : Enemy
             base.Taking_Damage(collision.GetComponent<Bullet>().damage);
         }
     }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("RangeEnemy"))
+        {
+            Physics2D.IgnoreCollision(collision.collider, GetComponent<Collider2D>());
+        }
+    }
 }
 //Å×½ºÆ® ¤·¤¤¸»¤¤¾Î

@@ -34,4 +34,6 @@ public class GearBox : MonoBehaviour
         // 오브젝트 삭제
         Destroy(gameObject);
     }
+
+
 }

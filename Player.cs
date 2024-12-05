@@ -11,8 +11,8 @@ public class Player : Character
     public Vector2 lastMoveDirection; // 마지막 이동 방향
 
     // 플레이어 전용 능력치(공격)
-    public float crit_rate = 0.05f; // 캐릭터 치확
-    public float crit_dmg = 1.5f;// 캐릭터 치피
+    //public float crit_rate = 0.05f; // 캐릭터 치확
+    //public float crit_dmg = 1.5f;// 캐릭터 치피
     public float fire_rate = 1f; // 무기 연사력
     public float projectile_speed = 1f; // 투사체 속도
     public float count = 1f;        // 투사체 개수?
@@ -42,20 +42,17 @@ public class Player : Character
 
     private void OnEnable()
     {
-        speed = 4;
-        max_health = 10000;
 
         curr_health = max_health;
-        switch (GameManager.Instance.playerId)
+        switch (GameManager.Instance.playerId)//캐릭터 배열마다 추가로 주어지는 특성
         {
             case 0:
-                speed_mod += 0.1f;
+                GameManager.Instance.player.speed += 0.3f;
                 break;
             case 1:
-                power += 0.1f;
+                GameManager.Instance.player.power += 0.1f;
                 break;
-            case 2:
-                projectile_speed += 0.1f;
+            case 2://이후로 캐릭 아직 없음                
                 break;
             case 3:
                 fire_rate += 0.1f;

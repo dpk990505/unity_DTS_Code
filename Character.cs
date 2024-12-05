@@ -21,7 +21,7 @@ public class Character : MonoBehaviour//캐릭터 초반 특성 설정
     public float max_health = 100f; // 최대 체력
     public float curr_health = 100f; // 현재 체력
     public float power = 1f; // 캐릭터 공격력
-    public float speed = 1f;//캐릭터의 이속
+    public float speed = 4;//캐릭터의 이속
 
 
     // 함수 선언부
